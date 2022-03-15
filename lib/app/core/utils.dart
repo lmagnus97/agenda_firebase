@@ -7,7 +7,7 @@ class Utils{
   }
 
   static String formatToTime(Timestamp timestamp) {
-    return DateFormat('hh:mm').format(timestamp.toDate());
+    return DateFormat('HH:mm').format(timestamp.toDate());
   }
 
   static String getFormatedDateTitle(DateTime dateTime) {

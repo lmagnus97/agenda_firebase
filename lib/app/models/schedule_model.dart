@@ -24,6 +24,8 @@ class ScheduleModel {
       reference: doc.reference,
       startTime: doc.get('startTime'),
       endTime: doc.get('endTime'),
+      nameClient: doc.get('nameClient'),
+      phoneClient: doc.get('phoneClient'),
       status: StatusScheduleFunctions.toEnum(doc.get('status')),
     );
   }
