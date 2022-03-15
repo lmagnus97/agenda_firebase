@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "765362664825",
+    "project_id": "app-agenda-esportiva",
+    "storage_bucket": "app-agenda-esportiva.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765362664825:android:d570039212aecb0356aba8",
+        "android_client_info": {
+          "package_name": "br.com.magnusdev.esportesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "765362664825-eq21g27967oqvbifbqobp0lug227eobu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCH-8_EfBuGMOTLF54e1C-dkWhdi5CJBzQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "765362664825-eq21g27967oqvbifbqobp0lug227eobu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

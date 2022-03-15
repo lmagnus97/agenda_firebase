@@ -1,0 +1,35 @@
+name: esportesapp
+description: Aplicativo para centros esportivos
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.16.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  cloud_firestore: ^3.1.10
+  firebase_core: ^1.13.1
+  flutter_mobx: ^2.0.4
+  flutter_modular: ^4.5.0
+  flutter_spinkit: ^5.1.0
+  intl: ^0.17.0
+  awesome_dialog: ^2.1.2
+  mask_text_input_formatter: ^2.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^1.0.0
+  mobx_codegen: ^2.0.5+2
+  build_runner: ^2.1.7
+  alice: ^0.2.5
+
+flutter:
+  uses-material-design: true
