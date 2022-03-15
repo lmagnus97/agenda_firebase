@@ -27,73 +27,84 @@ class _HomePageState extends ModularState<HomePage, AppController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Styles.backgroundColor(),
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text("Agenda de horários"),
-      ),
-      body: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.fromLTRB(10, 15, 10, 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+        backgroundColor: Styles.backgroundColor(),
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text("Agenda de horários"),
+          actions: [
+            IconButton(
+                onPressed: () => controller.resetDay(),
+                icon: Icon(Icons.date_range))
+          ],
+        ),
+        body: Observer(
+          builder: (_) {
+            return Column(
               children: [
-                IconButton(
-                    onPressed: () => controller
-                        .findByDay(DateTime.now().add(Duration(days: 1))),
-                    icon: const Icon(
-                      Icons.chevron_left_outlined,
-                      size: 48,
-                      color: Colors.black87,
-                    )),
-                Expanded(
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: Text(
-                        Utils.getFormatedDateTitle(DateTime.now()),
-                        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.black87),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(10, 15, 10, 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                          onPressed: () => controller.changeDay(-1),
+                          icon: const Icon(
+                            Icons.chevron_left_outlined,
+                            size: 48,
+                            color: Colors.black87,
+                          )),
+                      Expanded(
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15),
+                            child: Text(
+                              Utils.getFormatedDateTitle(controller.dateTime),
+                              style: const TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                      IconButton(
+                          onPressed: () => controller.changeDay(1),
+                          icon: const Icon(
+                            Icons.chevron_right_outlined,
+                            size: 48,
+                            color: Colors.black87,
+                          )),
+                    ],
                   ),
                 ),
-                IconButton(
-                    onPressed: () => "",
-                    icon: const Icon(
-                      Icons.chevron_right_outlined,
-                      size: 48,
-                      color: Colors.black87,
-                    )),
+                StreamBuilder<List<ScheduleModel>>(
+                  stream: controller.scheduleList,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<ScheduleModel>> snapshot) {
+                    if (snapshot.hasError) {
+                      return ErrorComponent(
+                          messageError: snapshot.error.toString());
+                    }
+                    if (!snapshot.hasData) return const LoaderComponent();
+                    return snapshot.data!.isNotEmpty
+                        ? ListView.builder(
+                            physics: const ScrollPhysics(),
+                            shrinkWrap: true,
+                            primary: false,
+                            itemCount: snapshot.data!.length,
+                            padding: const EdgeInsets.only(top: 10),
+                            itemBuilder: (BuildContext context, int index) {
+                              return _itemSchedule(snapshot.data![index]);
+                            },
+                          )
+                        : EmptyComponent(
+                            icon: Icons.list, title: Messages.messageEmpty);
+                  },
+                ),
               ],
-            ),
-          ),
-          StreamBuilder<List<ScheduleModel>>(
-            stream: controller.findByDay(DateTime.now()),
-            builder: (BuildContext context,
-                AsyncSnapshot<List<ScheduleModel>> snapshot) {
-              if (snapshot.hasError) {
-                return ErrorComponent(messageError: snapshot.error.toString());
-              }
-              if (!snapshot.hasData) return const LoaderComponent();
-              return snapshot.data!.isNotEmpty
-                  ? ListView.builder(
-                      physics: const ScrollPhysics(),
-                      shrinkWrap: true,
-                      primary: false,
-                      itemCount: snapshot.data!.length,
-                      padding: const EdgeInsets.only(top: 10),
-                      itemBuilder: (BuildContext context, int index) {
-                        return _itemSchedule(snapshot.data![index]);
-                      },
-                    )
-                  : EmptyComponent(
-                      icon: Icons.list, title: Messages.messageEmpty);
-            },
-          ),
-        ],
-      )
-    );
+            );
+          },
+        ));
   }
 
   Widget _itemSchedule(ScheduleModel scheduleModel) {

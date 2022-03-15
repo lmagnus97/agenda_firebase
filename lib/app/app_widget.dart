@@ -15,6 +15,7 @@ class AppWidget extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
+      debugShowCheckedModeBanner: false,
       routerDelegate: Modular.routerDelegate,
       routeInformationParser: Modular.routeInformationParser,
       localizationsDelegates: const [

@@ -10,8 +10,31 @@ class AppController = _AppControllerBase with _$AppController;
 
 abstract class _AppControllerBase with Store {
   final IScheduleRepository repository;
+  DateTime dateTime = DateTime.now();
 
-  _AppControllerBase(IScheduleRepository  this.repository);
+  @observable
+  ObservableStream<List<ScheduleModel>>? scheduleList;
+
+  _AppControllerBase(IScheduleRepository this.repository) {
+    getList();
+  }
+
+  @action
+  getList() {
+    scheduleList = repository.findByDay(dateTime).asObservable();
+  }
+
+  @action
+  changeDay(int numberOfDays) {
+    dateTime = dateTime.add(Duration(days: numberOfDays));
+    getList();
+  }
+
+  @action
+  resetDay() {
+    dateTime = DateTime.now();
+    getList();
+  }
 
   Stream<List<ScheduleModel>> findByDay(DateTime dateTime) {
     return repository.findByDay(dateTime);
@@ -30,5 +53,4 @@ abstract class _AppControllerBase with Store {
     model.phoneClient = null;
     return repository.save(model);
   }
-
 }
